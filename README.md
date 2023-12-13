@@ -3,17 +3,17 @@ _____________________
 ## Prerequisites
 1. Docker
 _____________________
-### Installation
+## Installation
 
-#### Local Environment
-Using **1 of 2** ways below.
-1. Using enviroments on owner Host machine
-    > yarn
-    >
-    > yarn start:dev
-2. ~~Using Docker~~
-    > docker compose up
+- Copy file **_env.sample.yml_** to file **_env.yml_**. Fill information of env file.
 
-#### Deploy Environment
-1. Using Docker
-    > docker compose up
+- Run command line
+> #### Local Environment
+> yarn
+>
+> yarn start:dev
+
+> ### Deploy Environment
+> docker compose up
+
+- Open your browser and navigate to **http://localhost:3000** (port is setup in env file)
