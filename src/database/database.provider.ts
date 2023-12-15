@@ -3,19 +3,26 @@ import { Provider } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { DatabaseConfig } from './database.interface';
 import { UserModel } from 'src/entities/user.entity';
-
-let sequelize: Sequelize = null;
+import configuration from 'src/config/configuration';
+import databaseConfig from 'src/config/database.config';
 
 const models = [UserModel];
+
+const config = databaseConfig();
+const sequelize = new Sequelize({
+    ...config,
+    dialect: 'mysql',
+    dialectOptions: {
+        supportBigNumbers: true,
+    },
+    logging: false,
+});
 
 const databaseProviders: Provider[] = [
     {
         provide: 'SEQUELIZE',
-        inject: [ConfigService],
-        useFactory: async (configService: ConfigService) => {
-            const databaseConfig =
-                configService.get<DatabaseConfig>('database');
-            initDatabase(databaseConfig).catch((err) => {
+        useFactory: async () => {
+            initDatabase().catch((err) => {
                 console.log('can not init database', err);
                 process.abort();
             });
@@ -23,17 +30,7 @@ const databaseProviders: Provider[] = [
     },
 ];
 
-async function initDatabase(databaseConfig: DatabaseConfig) {
-    sequelize = new Sequelize({
-        ...databaseConfig,
-        dialect: 'mysql',
-        dialectOptions: {
-            supportBigNumbers: true,
-        },
-        //   pool: DB_POOL_CONFIG,
-        logging: false,
-    });
-
+async function initDatabase() {
     // sequelize model
     sequelize.addModels(models);
 

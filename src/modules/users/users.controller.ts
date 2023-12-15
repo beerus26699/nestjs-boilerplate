@@ -10,7 +10,7 @@ import {
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiConsumes, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { AuthRequired, User } from 'src/shared/decorators/auth.decorator';
 
 @Controller('users')
@@ -19,20 +19,25 @@ import { AuthRequired, User } from 'src/shared/decorators/auth.decorator';
 export class UsersController {
     constructor(private readonly usersService: UsersService) {}
 
-    @Get('check-auth')
+    @Post('check-auth')
+    @ApiOperation({ summary: 'Check JWT Token' })
     checkAuth(@User('userId') userId: number) {
-        console.log("🚀 ~ file: users.controller.ts:24 ~ UsersController ~ checkAuth ~ userId:", userId)
+        console.log(
+            '🚀 ~ file: users.controller.ts:24 ~ UsersController ~ checkAuth ~ userId:',
+            userId,
+        );
         return true;
+    }
+
+    @Get()
+    @ApiOperation({ summary: 'Get all users' })
+    findAll() {
+        return this.usersService.findAll();
     }
 
     // @Post()
     // create(@Body() createUserDto: CreateUserDto) {
     //     return this.usersService.create(createUserDto);
-    // }
-
-    // @Get()
-    // findAll() {
-    //     return this.usersService.findAll();
     // }
 
     // @Patch(':id')
