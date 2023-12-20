@@ -17,14 +17,17 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
       - name: Login to docker hub
-        run: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
-      - name: Build docker image
-        run: docker build -t $DOCKER_REPOSITORY .
-      - name: Push image to Docker Hub
-        run: docker push $DOCKER_REPOSITORY
+        run: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD |
+          && echo "Login done"
+      # - name: Build docker image
+      #   run: docker build -t $DOCKER_REPOSITORY .
+      # - name: Push image to Docker Hub
+      #   run: docker push $DOCKER_REPOSITORY \
+      #     && echo "Done""
 
-  # deploy:
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Deploy
-  #       run: echo "Run jobs Deploy"
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy
+        run: echo "Run jobs Deploy"
