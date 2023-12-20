@@ -9,7 +9,6 @@ env:
   DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
   DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
   DOCKER_REPOSITORY: ${{ secrets.DOCKER_USERNAME }}/test-push-example
-  DOCKER_REPOSITORY1: '${{ secrets.DOCKER_USERNAME }}/test-push-example'
 
 jobs:
   build:
@@ -17,14 +16,12 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
-      - name: Echo
-        run: echo $DOCKER_REPOSITORY && echo $DOCKER_REPOSITORY1
-      # - name: Login to docker hub
-      #   run: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
-      # - name: Build docker image
-      #   run: docker build -t $DOCKER_USERNAME/nestjs-boilerplate .
-      # - name: Push image to Docker Hub
-      #   run: docker push $DOCKER_USERNAME/nestjs-boilerplate
+      - name: Login to docker hub
+        run: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+      - name: Build docker image
+        run: docker build -t $DOCKER_REPOSITORY .
+      - name: Push image to Docker Hub
+        run: docker push $DOCKER_REPOSITORY
 
   # deploy:
   #   runs-on: ubuntu-latest
