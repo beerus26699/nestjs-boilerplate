@@ -6,10 +6,10 @@ on:
       - "master"
 
 env:
-  DOCKER_USERNAME: ${{ secret.DOCKER_USERNAME }}
-  DOCKER_PASSWORD: ${{ secret.DOCKER_PASSWORD }}
-  DOCKER_REPOSITORY: ${{ secret.DOCKER_USERNAME }}/test-push-example
-  DOCKER_REPOSITORY1: '${{ secret.DOCKER_USERNAME }}/test-push-example'
+  DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+  DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+  DOCKER_REPOSITORY: ${{ secrets.DOCKER_USERNAME }}/test-push-example
+  DOCKER_REPOSITORY1: '${{ secrets.DOCKER_USERNAME }}/test-push-example'
 
 jobs:
   build:
